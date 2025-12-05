@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>수상한 사이트</title>
+    <title>something</title>
     <style>
-        /* 화면의 여백을 없애고 스크롤을 방지합니다 */
+        /* 기본 설정 */
         body, html {
             margin: 0;
             padding: 0;
@@ -13,44 +13,71 @@
             height: 100%;
             overflow: hidden;
             background-color: #000;
+            font-family: sans-serif;
         }
 
-        /* 영상 컨테이너: 클릭 방지 및 위치 잡기 */
-        .video-background {
+        /* 비디오 스타일 */
+        video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* 사용자가 영상을 클릭해서 멈추는 것을 방지 */
+            object-fit: cover;
+            display: block;
         }
 
-        /* iframe 강제 크기 조절 (16:9 비율 유지하며 꽉 채우기) */
-        .video-background iframe {
+        /* 시작 화면 (Click Here) 스타일 */
+        #start-screen {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            /* 화면 너비 기준 16:9 비율 계산 */
-            width: 100vw;
-            height: 56.25vw; 
-            /* 화면 높이 기준 16:9 비율 계산 (최소 크기 보장) */
-            min-height: 100vh;
-            min-width: 177.77vh; 
-            /* 정중앙 정렬 */
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            transition: opacity 0.5s;
+        }
+        
+        #start-screen:hover {
+            color: #ddd;
         }
     </style>
 </head>
 <body>
-    <div class="video-background">
-        <iframe 
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=o8yR3J8UydUX8H9e&controls=0&autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-        </iframe>
-    </div>
+
+    <video id="myVideo" loop playsinline>
+        <source src="./rickroll.mp4" type="video/mp4">
+        브라우저가 비디오를 지원하지 않습니다.
+    </video>
+
+    <div id="start-screen">Click Here</div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const startScreen = document.getElementById('start-screen');
+
+        startScreen.addEventListener('click', function() {
+            video.play().then(() => {
+                document.title = "LOL"
+
+                // Click Here 화면 숨기기
+                startScreen.style.opacity = '0';
+                setTimeout(() => {
+                    startScreen.style.display = 'none';
+                }, 500);
+            }).catch(error => {
+                console.error("재생 실패:", error);
+                alert("비디오를 재생할 수 없습니다. 파일 경로(./rickroll.mp4)를 확인해주세요.");
+            });
+        });
+    </script>
 </body>
 </html>
